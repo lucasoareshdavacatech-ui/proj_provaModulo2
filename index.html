@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Financeira Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestão Financeira</h1>
+        
+        <!-- Formulário de Transação -->
+        <form id="finance-form">
+            <input type="text" id="desc-input" placeholder="Descrição (ex: Salário, Aluguel)" required>
+            <input type="number" id="value-input" placeholder="Valor (ex: 1500, -250)" required>
+            <button type="submit">Adicionar</button>
+        </form>
+
+        <!-- Lista de Transações -->
+        <h2>Transações</h2>
+        <ul id="transactions-list"></ul>
+    </div>
+
+    <!-- Scripts com tipo module -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

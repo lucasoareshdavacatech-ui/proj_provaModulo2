@@ -1,0 +1,7 @@
+# Exemplo de arquivo para ignorar chaves privadas (caso use variáveis de ambiente mais tarde)
+.env
+.env.local
+
+# Configurações de editores de código
+.vscode/
+.idea/
