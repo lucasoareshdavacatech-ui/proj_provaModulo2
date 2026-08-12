@@ -119,3 +119,36 @@ h2 {
 #transactions-list li.expense span {
     color: #c92a2a;
 }
+
+/* Nova seção para o painel de resumo de gastos */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.balance-box {
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: inset 0 0 0 1px #e3e6ec;
+}
+
+.balance-box small {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #868e96;
+    font-weight: 700;
+}
+
+.balance-box p {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.income-box p { color: #2b8a3e; }
+.expense-box p { color: #c92a2a; }
+.total-box { background-color: #e8f5e9; }

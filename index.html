@@ -10,19 +10,34 @@
     <div class="container">
         <h1>Gestão Financeira</h1>
         
+        <!-- Dashboard de Resumo (Atividade 3) -->
+        <div class="dashboard">
+            <div class="balance-box income-box">
+                <small>Entradas</small>
+                <p id="total-income">R$ 0.00</p>
+            </div>
+            <div class="balance-box expense-box">
+                <small>Saídas</small>
+                <p id="total-expenses">R$ 0.00</p>
+            </div>
+            <div class="balance-box total-box">
+                <small>Saldo Atual</small>
+                <p id="total-balance">R$ 0.00</p>
+            </div>
+        </div>
+
         <!-- Formulário de Transação -->
         <form id="finance-form">
             <input type="text" id="desc-input" placeholder="Descrição (ex: Salário, Aluguel)" required>
-            <input type="number" id="value-input" placeholder="Valor (ex: 1500, -250)" required>
-            <button type="submit">Adicionar</button>
+            <input type="number" id="value-input" placeholder="Valor (positivo para receita, negativo para gasto)" required>
+            <button type="submit">Adicionar Transação</button>
         </form>
 
         <!-- Lista de Transações -->
-        <h2>Transações</h2>
+        <h2>Histórico de Transações</h2>
         <ul id="transactions-list"></ul>
     </div>
 
-    <!-- Scripts com tipo module -->
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
