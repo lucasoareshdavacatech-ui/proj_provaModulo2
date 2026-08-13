@@ -1,154 +1,596 @@
-/* Configurações Gerais e Reset */
+/* ==========================================================================
+   VARS & CORE CONFIG - DESIGN SYSTEM
+   ========================================================================== */
+:root {
+    --bg-global: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-surface-alt: #f1f5f9;
+    
+    /* Cores de Ação */
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-focus: rgba(37, 99, 235, 0.2);
+    
+    /* Semântica Financeira */
+    --income: #10b981;
+    --income-bg: #ecfdf5;
+    --income-text: #065f46;
+    
+    --expense: #ef4444;
+    --expense-bg: #fef2f2;
+    --expense-text: #991b1b;
+
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    
+    /* Design System */
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Configuração do Modo Escuro */
+body.dark-theme {
+    --bg-global: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-surface-alt: #334155;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    
+    --income-bg: #064e3b;
+    --income-text: #34d399;
+    --expense-bg: #7f1d1d;
+    --expense-text: #f87171;
+    
+    --total-box: #1e3a8a;
+}
+
+/* Reset Avançado */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
 body {
-    background-color: #f4f6f9;
-    color: #333;
+    background-color: var(--bg-global);
+    color: var(--text-main);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 1.5rem;
 }
 
-/* Container Principal */
+/* ==========================================================================
+   LAYOUT CONTAINERS & MASTER GRID
+   ========================================================================== */
 .container {
-    background-color: #ffffff;
+    background-color: var(--bg-surface);
     width: 100%;
-    max-width: 500px;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    max-width: 540px;
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+}
+
+.grid-layout-master {
+    display: grid;
+    grid-template-columns: 320px 540px 320px;
+    gap: 1.5rem;
+    align-items: start;
+    width: 100%;
+    max-width: 1220px;
+    margin: 0 auto;
+    margin-top: 95px !important; /* Respiro para não sumir atrás da barra fixa */
 }
 
 h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 2rem;
     text-align: center;
-    color: #1a1a1a;
+    color: var(--text-main);
 }
 
 h2 {
-    font-size: 18px;
-    margin: 25px 0 15px 0;
-    color: #555;
-    border-bottom: 2px solid #f0f2f5;
-    padding-bottom: 8px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 2.5rem 0 1rem 0;
+    color: var(--text-main);
+    letter-spacing: -0.01em;
 }
 
-/* Formulário */
+/* Cards Laterais dos Gráficos */
+.side-card {
+    background-color: var(--bg-surface);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+}
+
+.side-card h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    margin-top: 1rem;
+}
+
+/* ==========================================================================
+   HEADER / TOPO COMPONENT (CORRIGIDO)
+   ========================================================================== */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: var(--bg-surface);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    z-index: 1000;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.left-actions, .right-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+#menu-hamburger {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s;
+}
+#menu-hamburger:hover { 
+    transform: scale(1.1); 
+}
+
+.brand-title { 
+    font-weight: bold; 
+    font-size: 1.2rem; 
+    color: var(--primary); 
+}
+
+.quick-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 20px;
+    transition: background 0.2s;
+}
+.quick-profile:hover { 
+    background: rgba(0,0,0,0.05); 
+}
+body.dark-theme .quick-profile:hover { 
+    background: rgba(255,255,255,0.08); 
+}
+
+.quick-profile img, .profile-item img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#top-username { 
+    font-size: 0.9rem; 
+    font-weight: 500; 
+    color: var(--text-main); 
+}
+
+/* Botão de Alternar Tema Reajustado */
+#theme-toggle {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-main);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    margin: 0; /* Remove empurrões errados */
+}
+
+#theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme #theme-toggle {
+    background: rgba(255, 255, 255, 0.08);
+}
+body.dark-theme #theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ==========================================================================
+   MENU DE NAVEGAÇÃO INTERNO SPA
+   ========================================================================== */
+.app-menu {
+    display: flex;
+    background-color: var(--bg-surface-alt);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    margin-bottom: 2rem;
+    gap: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.menu-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-smooth);
+}
+
+.menu-btn:hover {
+    color: var(--text-main);
+}
+
+.menu-btn.active {
+    background-color: var(--bg-surface);
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.app-section { display: none; }
+.app-section.active { display: block; }
+
+/* ==========================================================================
+   FORM & INTERACTIVE ELEMENTS
+   ========================================================================== */
 #finance-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 1rem;
 }
 
 #finance-form input {
     width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: border-color 0.2s;
+    padding: 0.875rem 1.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    color: var(--text-main);
+    background-color: var(--bg-surface);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-smooth);
 }
 
 #finance-form input:focus {
     outline: none;
-    border-color: #4dabf7;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-focus);
 }
 
-#finance-form button {
-    background-color: #228be6;
-    color: white;
+#finance-form button[type="submit"] {
+    background-color: var(--primary);
+    color: #ffffff;
     border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: 0.875rem;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-smooth);
 }
 
-#finance-form button:hover {
-    background-color: #1c7ed6;
+#finance-form button[type="submit"]:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
-/* Lista de Transações */
+#type-toggle-btn {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    color: #ffffff;
+}
+#type-toggle-btn:active { transform: scale(0.98); }
+
+.btn-income { background-color: #10b981; }
+.btn-income:hover { background-color: #059669; }
+.btn-expense { background-color: #ef4444; }
+.btn-expense:hover { background-color: #dc2626; }
+
+/* ==========================================================================
+   DYNAMIC LIST (HISTÓRICO)
+   ========================================================================== */
 #transactions-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-height: 300px;
+    gap: 0.75rem;
+    max-height: 280px;
     overflow-y: auto;
+    padding-right: 4px;
+}
+
+#transactions-list::-webkit-scrollbar { width: 6px; }
+#transactions-list::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 10px;
 }
 
 #transactions-list li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    font-size: 15px;
-    border-left: 5px solid #dee2e6;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 500;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+}
+#transactions-list li:hover {
+    box-shadow: var(--shadow-sm);
+    transform: translateX(2px);
 }
 
 #transactions-list li span {
-    font-weight: 600;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
 }
 
-/* Estilização Dinâmica (Gerada pelo JS) */
 #transactions-list li.income {
-    border-left-color: #40c057; /* Verde para receitas */
+    border-left: 4px solid var(--income);
+    background-color: var(--income-bg);
+    border-color: #d1fae5;
 }
-
-#transactions-list li.income span {
-    color: #2b8a3e;
-}
+#transactions-list li.income span { color: var(--income-text); }
 
 #transactions-list li.expense {
-    border-left-color: #fa5252; /* Vermelho para despesas */
+    border-left: 4px solid var(--expense);
+    background-color: var(--expense-bg);
+    border-color: #fee2e2;
 }
+#transactions-list li.expense span { color: var(--expense-text); }
 
-#transactions-list li.expense span {
-    color: #c92a2a;
+/* ==========================================================================
+   BARRA LATERAL GESTÃO DE CONTAS (SIDEBAR)
+   ========================================================================== */
+.account-sidebar {
+    position: fixed;
+    top: 0;
+    left: -340px;
+    width: 340px;
+    height: 100%;
+    background: var(--bg-surface);
+    box-shadow: 5px 0 25px rgba(0,0,0,0.15);
+    z-index: 1100;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }
+.account-sidebar.open { left: 0; }
 
-/* Nova seção para o painel de resumo de gastos */
-.dashboard {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 25px;
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
 }
+#close-sidebar { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted); }
 
-.balance-box {
-    background-color: #f8f9fa;
-    padding: 12px;
-    border-radius: 8px;
+.active-profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    box-shadow: inset 0 0 0 1px #e3e6ec;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: var(--bg-surface-alt);
+    border-radius: 12px;
 }
 
-.balance-box small {
-    font-size: 11px;
-    text-transform: uppercase;
-    color: #868e96;
-    font-weight: 700;
+.avatar-edit-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+.avatar-edit-container img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary);
 }
 
-.balance-box p {
-    font-size: 16px;
-    font-weight: 700;
-    margin-top: 4px;
+.edit-avatar-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--primary);
+    color: #fff;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background 0.2s;
+}
+.edit-avatar-badge:hover { background: var(--primary-hover); }
+
+.input-inline-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+}
+#edit-display-name {
+    background: transparent;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--text-main);
+    width: 140px;
+}
+#edit-display-name.editable {
+    border-bottom: 2px solid var(--primary);
+    background: rgba(0,0,0,0.02);
+}
+#btn-edit-name { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; }
+#btn-edit-name:hover { color: var(--primary); }
+#sidebar-email { color: var(--text-muted); }
+
+.profiles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: 180px;
+    overflow-y: auto;
+}
+.profile-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem;
+    border-radius: 8px;
+    background: var(--bg-surface-alt);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.profile-item:hover { background: var(--border-color); }
+.profile-item.selected { border: 2px solid #10b981; }
+.profile-meta { display: flex; align-items: center; gap: 0.6rem; }
+.profile-meta div { display: flex; flex-direction: column; text-align: left; }
+.profile-meta span { font-size: 0.85rem; font-weight: 500; color: var(--text-main); }
+.profile-meta small { font-size: 0.75rem; color: var(--text-muted); }
+.btn-delete-profile { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.85rem; padding: 4px; }
+
+.account-form { display: flex; flex-direction: column; gap: 0.6rem; }
+.account-form input { 
+    padding: 0.6rem; 
+    border: 1px solid var(--border-color); 
+    border-radius: 6px; 
+    font-size: 0.85rem;
+    background: var(--bg-surface);
+    color: var(--text-main);
+}
+.account-form button { 
+    background: var(--primary); 
+    color: #fff; 
+    border: none; 
+    padding: 0.6rem; 
+    border-radius: 6px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    font-size: 0.85rem; 
+}
+.account-form button:hover { background: var(--primary-hover); }
+
+.divider { border: 0; height: 1px; background: rgba(148, 163, 184, 0.2); margin: 1.2rem 0; }
+.sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1050; display: none; }
+.sidebar-overlay.open { display: block; }
+
+/* ==========================================================================
+   RODAPÉ (FOOTER) & REDES SOCIAIS
+   ========================================================================== */
+.app-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.15);
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
 }
 
-.income-box p { color: #2b8a3e; }
-.expense-box p { color: #c92a2a; }
-.total-box { background-color: #e8f5e9; }
+.social-links {
+    margin-top: 0.8rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+}
+
+.social-icon {
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+    display: inline-block;
+}
+.social-icon:hover {
+    transform: translateY(-4px) scale(1.18);
+}
+.social-icon.instagram:hover { color: #e1306c; }
+.social-icon.tiktok:hover {
+    color: #00f2fe;
+    text-shadow: 2px 0 0 #fe2c55;
+}
+.social-icon.linkedin:hover { color: #0077b5; }
+
+/* ==========================================================================
+   RESPONSIVIDADE GERAL
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .grid-layout-master {
+        grid-template-columns: 1fr;
+        max-width: 540px;
+    }
+    .left-card { order: 2; }
+    .container { order: 1; }
+    .right-card { order: 3; }
+}
+
+@media (max-width: 480px) {
+    .container { padding: 1.5rem; }
+    .top-bar { padding: 0 1rem; }
+}
+
+.enabled { z-index: 9999 !important; }

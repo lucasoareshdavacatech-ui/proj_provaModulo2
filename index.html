@@ -5,39 +5,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão Financeira Pro</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- CDN do Font Awesome para os ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Gestão Financeira</h1>
-        
-        <!-- Dashboard de Resumo (Atividade 3) -->
-        <div class="dashboard">
-            <div class="balance-box income-box">
-                <small>Entradas</small>
-                <p id="total-income">R$ 0.00</p>
+
+    <!-- BARRA SUPERIOR: Menu Hambúrguer, Perfil Rápido e Tema -->
+    <header class="top-bar">
+        <div class="left-actions">
+            <button id="menu-hamburger" aria-label="Gerenciador de Contas">
+                <i class="fas fa-bars"></i>
+            </button>
+            <span class="brand-title">Finanças Pro</span>
+        </div>
+        <div class="right-actions">
+            <div class="quick-profile" id="quick-profile-trigger">
+                <img id="top-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar">
+                <span id="top-username">Visitante</span>
             </div>
-            <div class="balance-box expense-box">
-                <small>Saídas</small>
-                <p id="total-expenses">R$ 0.00</p>
+            <button id="theme-toggle" aria-label="Alternar tema">🌓 Tema</button>
+        </div>
+    </header>
+
+    <!-- PAINEL LATERAL (SIDEBAR): Gerenciador de Contas -->
+    <aside id="account-sidebar" class="account-sidebar">
+        <div class="sidebar-header">
+            <h3>Gerenciador de Contas</h3>
+            <button id="close-sidebar"><i class="fas fa-times"></i></button>
+        </div>
+
+        <!-- Área do Perfil Ativo (Edição) -->
+        <div class="active-profile-card">
+            <div class="avatar-edit-container">
+                <img id="sidebar-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Foto de Perfil">
+                <label for="avatar-upload" class="edit-avatar-badge" title="Editar foto">
+                    <i class="fas fa-pencil-alt"></i>
+                </label>
+                <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
             </div>
-            <div class="balance-box total-box">
-                <small>Saldo Atual</small>
-                <p id="total-balance">R$ 0.00</p>
+            <div class="profile-info-edit">
+                <div class="input-inline-container">
+                    <input type="text" id="edit-display-name" value="Visitante" readonly>
+                    <button id="btn-edit-name" title="Editar nome"><i class="fas fa-pencil-alt"></i></button>
+                </div>
+                <small id="sidebar-email">visitante@email.com</small>
             </div>
         </div>
 
-        <!-- Formulário de Transação -->
-        <form id="finance-form">
-            <input type="text" id="desc-input" placeholder="Descrição (ex: Salário, Aluguel)" required>
-            <input type="number" id="value-input" placeholder="Valor (positivo para receita, negativo para gasto)" required>
-            <button type="submit">Adicionar Transação</button>
-        </form>
+        <hr class="divider">
 
-        <!-- Lista de Transações -->
-        <h2>Histórico de Transações</h2>
-        <ul id="transactions-list"></ul>
+        <!-- Lista de Perfis Cadastrados para Alternar -->
+        <h4>Alternar Perfil</h4>
+        <div class="profiles-list" id="saved-profiles-list">
+            <!-- Inserido via JS -->
+        </div>
+
+        <hr class="divider">
+
+        <!-- Formulário para Criar/Adicionar Nova Conta -->
+        <h4>Adicionar Nova Conta</h4>
+        <form id="account-form" class="account-form">
+            <input type="text" id="acc-name" placeholder="Nome de Usuário" required>
+            <input type="email" id="acc-email" placeholder="E-mail / Gmail" required>
+            <button type="submit">Cadastrar e Entrar</button>
+        </form>
+    </aside>
+
+    <!-- Camada escura de fundo quando o menu abrir -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Layout Grid Mestre de Elite (3 Colunas) -->
+    <div class="grid-layout-master" style="margin-top: 80px;">
+
+        <!-- CARD ESQUERDA: Gráfico 1 -->
+        <aside class="side-card left-card">
+            <h2>Categorias</h2>
+            <div class="chart-container">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </aside>
+
+        <!-- CARD CENTRAL: Seu App Principal -->
+        <main class="container">
+            <h1>Gestão Financeira</h1>
+
+            <!-- Menu de Navegação SPA -->
+            <nav class="app-menu">
+                <button class="menu-btn active" data-target="sec-dashboard">Painel</button>
+                <button class="menu-btn" data-target="sec-transactions">Transações</button>
+            </nav>
+
+            <!-- Seção 1: Painel Geral (Resumo de Gastos e Formulário) -->
+            <section id="sec-dashboard" class="app-section active">
+                <div class="dashboard">
+                    <div class="balance-box income-box">
+                        <small>Entradas</small>
+                        <p id="total-income">R$ 0.00</p>
+                    </div>
+                    <div class="balance-box expense-box">
+                        <small>Saídas</small>
+                        <p id="total-expenses">R$ 0.00</p>
+                    </div>
+                    <div class="balance-box total-box">
+                        <small>Saldo Atual</small>
+                        <p id="total-balance">R$ 0.00</p>
+                    </div>
+                </div>
+
+                <form id="finance-form">
+                    <button type="button" id="type-toggle-btn" class="btn-income">Tipo: Entrada</button>
+                    <input type="text" id="desc-input" placeholder="Descrição (ex: Salário, Aluguel)" required>
+                    <input type="number" id="value-input" placeholder="Valor (ex: 150.00)" step="0.01" required>
+                    <button type="submit">Confirmar Lançamento</button>
+                </form>
+            </section>
+
+            <!-- Seção 2: Histórico de Transações Isolado -->
+            <section id="sec-transactions" class="app-section">
+                <h2>Histórico Completo</h2>
+                <ul id="transactions-list"></ul>
+            </section>
+
+            <!-- RODAPÉ (FOOTER) -->
+            <footer class="app-footer">
+                <p>&copy; 2026 Lucas Soares Ribeiro da Silva. Todos os direitos reservados.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="social-icon tiktok" aria-label="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-icon linkedin" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </footer>
+        </main>
+
+        <!-- CARD DIREITA: Gráfico 2 -->
+        <aside class="side-card right-card">
+            <h2>Evolução</h2>
+            <div class="chart-container">
+                <canvas id="evolutionChart"></canvas>
+            </div>
+        </aside>
+
     </div>
 
+    <!-- Componente do VLibras (Acessibilidade) -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
+    <!-- Lib Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
